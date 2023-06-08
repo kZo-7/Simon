@@ -7,7 +7,7 @@ var randomChosenColour;
 var flagGameStarted = true;
 var level = 0;
 
-//pressing a key for starting the game
+//pressing a key for starting the game (app is listening for keypress event)
 $(document).keypress(function () {
     if (Boolean(flagGameStarted)) {
         $("h1").html("Level " + level);
@@ -16,6 +16,7 @@ $(document).keypress(function () {
     }
 });
 
+//when the user has to generate the right sequence (app is listening for button-clicked events)
 $(".btn").click(function () {
     var userChosenColour = $(this).attr("id");
     userClickedPattern.push(userChosenColour);
@@ -29,6 +30,7 @@ $(".btn").click(function () {
 
 //choosing a random colour from the buttonColours[] array and save it to the gamepattern[] array
 function nextSequence() {
+    //every time there is a level up, we empty "userClickedPattern[]" array
     userClickedPattern.length = 0;
     level++;
     $("h1").html("Level " + level);
@@ -39,6 +41,7 @@ function nextSequence() {
     randomChosenColour = buttonColours[randomNumber];
 
     //making the random button to flash and making a sound
+    //make the button with the appropriate #id to animate
     var flashSelector = $("#" + randomChosenColour);
     flashSelector.fadeTo(200, 0.1, function () {
         $(this).fadeTo(200, 1.0, function () {
@@ -50,11 +53,12 @@ function nextSequence() {
     console.log(`gamePattern : ${gamePattern}`);
 }
 
-//Checking if the user chooses the right answer
+//Checking if the user chooses the right answer by comparing the 2 arrays
 function checkAnswer(currentLevel) {
+    //checking if the user's choice equals with the app's choice
     if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
         console.log("Success!");
-        //
+        //if all user's choices are correct then level up and produce next sequence
         if (compareArrays(gamePattern, userClickedPattern)) {
             setTimeout(() => {
                 console.log(`Level = ${level}`);
@@ -100,5 +104,6 @@ function animateWrong(className) {
 }
 
 function compareArrays(a, b) {
+    //choosing this approach because there is no way to have null and/or undefined values in our arrays
     return JSON.stringify(a) === JSON.stringify(b);
 }
