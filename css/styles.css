@@ -28,7 +28,7 @@ body {
   height: 120px;
   width: 120px;
   border: 6px solid black;
-  border-radius: 140%;
+  border-radius: 14%;
 }
 
 @media screen and (min-width: 810px) {
